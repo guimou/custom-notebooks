@@ -152,9 +152,14 @@ ENV USE_MKL=1 \
     LD_PRELOAD=/opt/intel/oneapi/compiler/2022.1.0/linux/compiler/lib/intel64_lin/libiomp5.so:$LD_PRELOAD \
     KMP_AFFINITY=granularity=fine,compact,1,0
 
+COPY ffmpeg5-compat.patch /tmp/
+
 RUN mkdir -p /tmp/pytorch_build && cd /tmp/pytorch_build && \
     git clone --recurse-submodules -j 8 --depth 1 --branch v1.12.0 https://github.com/pytorch/pytorch && \
     cd /tmp/pytorch_build/pytorch && \
+    # Patch for FFMpeg-5 compatibility
+    cp /tmp/ffmpeg5-compat.patch ./ && \
+    patch -p1 < ffmpeg5-compat.patch && \
     # Git repo has pre-release numbering, which prevents pip list to get the right version
     echo "1.12.0" > version.txt && \
     # Remove git directory to not pollute version numbers
