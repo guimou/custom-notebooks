@@ -65,12 +65,19 @@ RUN mkdir -p /tmp/opencv_build && cd /tmp/opencv_build && \
 WORKDIR /tmp/opencv_build/opencv/build
 
 RUN cmake3 -D CMAKE_BUILD_TYPE=RELEASE \
-    -D BUILD_opencv_world=ON \
+    -D BUILD_EXAMPLES=OFF \
+    -D BUILD_JAVA=OFF \
     -D BUILD_opencv_gapi=OFF \
+    -D BUILD_OPENCV_PYTHON2=OFF \
+    -D BUILD_opencv_python3=ON \
+    -D BUILD_opencv_world=ON \
+    -D BUILD_PERF_TESTS=OFF   \
+    -D BUILD_TESTS=OFF  \
     -D CMAKE_INSTALL_PREFIX=/opt/opencv \
+    -D CMAKE_LIBRARY_PATH=/opt/app-root/lib \
     -D CUDA_ARCH_BIN=${CUDA_ARCH_BIN} \
     -D CUDA_FAST_MATH=ON \
-    -D ENABLE_HEADLESS=1 \
+    -D ENABLE_FAST_MATH=1 \
     -D HAVE_opencv_python3=ON \
     -D INSTALL_C_EXAMPLES=OFF \
     -D INSTALL_PYTHON_EXAMPLES=OFF \
@@ -81,6 +88,15 @@ RUN cmake3 -D CMAKE_BUILD_TYPE=RELEASE \
     -D OPENCV_ENABLE_NONFREE=OFF \
     -D OPENCV_EXTRA_MODULES_PATH=/tmp/opencv_build/opencv_contrib/modules \
     -D OPENCV_GENERATE_PKGCONFIG=ON \
+    -D OPENCV_PYTHON3_INSTALL_PATH=/opt/app-root/lib/python3.9/site-packages \
+    -D PYTHON3_EXECUTABLE=/opt/app-root/bin/python \
+    -D PYTHON3_INCLUDE_DIR=/opt/app-root/include/site/python3.9 \
+    -D PYTHON3_INCLUDE_PATH=/opt/app-root/include/site/python3.9 \
+    -D PYTHON3_LIBRARIES=/usr/lib64/libpython3.9.so \
+    -D PYTHON3_LIBRARY=/usr/lib64/libpython3.9.so \
+    -D PYTHON3_NUMPY_INCLUDE_DIRS=/opt/app-root/lib/python3.9/site-packages/numpy/core/include \
+    -D PYTHON3_PACKAGES_PATH=/opt/app-root/lib/python3.9/site-packages \
+    -D PYTHON_EXECUTABLE=/opt/app-root/bin/python3 \
     -D WITH_CUBLAS=ON \
     -D WITH_CUDA=ON \
     -D WITH_CUDNN=ON \
@@ -94,8 +110,7 @@ RUN cmake3 -D CMAKE_BUILD_TYPE=RELEASE \
     -D WITH_MKL=ON \
     -D WITH_NVCUVID=ON \
     -D WITH_OPENGL=ON \
-    -D WITH_TBB=ON \
-    -D BUILD_EXAMPLES=OFF ..
+    -D WITH_TBB=ON ..
 
 RUN make -j`nproc` && \
     make install && \
