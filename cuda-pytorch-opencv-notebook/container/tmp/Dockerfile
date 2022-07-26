@@ -202,4 +202,6 @@ RUN mkdir -p /tmp/torchaudio_build && cd /tmp/torchaudio_build && \
     cd /tmp/torchaudio_build/audio && \
     # Git repo has pre-release numbering, which prevents pip list to get the right version
     echo "0.12.0" > version.txt && \
-    MAXJOBS=`nproc` python setup.py install --prefix=/opt/app-root/torchaudio
+    MAXJOBS=`nproc` python setup.py install --prefix=/opt/app-root/torchaudio && \
+    ln -s /opt/app-root/torchaudio/lib64/python3.9/site-packages/torchaudio-0.12.0+2e13884-py3.9-linux-x86_64.egg/torchaudio /opt/app-root/lib/python3.9/site-packages/torchaudio && \
+    ln -s /opt/app-root/torchaudio/lib64/python3.9/site-packages/torchaudio-0.12.0+2e13884-py3.9-linux-x86_64.egg/EGG-INFO /opt/app-root/lib/python3.9/site-packages/torchaudio-0.12.0-py3.9.egg-info
