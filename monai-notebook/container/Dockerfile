@@ -234,7 +234,6 @@ RUN /tmp/scripts/assemble
 # Monai + Streamlit #
 #####################
 
-USER root
 WORKDIR /tmp/
 
 # Copying custom packages
